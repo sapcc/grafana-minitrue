@@ -1,7 +1,7 @@
 #!/bin/sh
 
-PATH_IN="/gitsync_in"
-PATH_OUT="/gitsync_out"
+PATH_IN=${PATH_IN:-/gitsync_in}
+PATH_OUT=${PATH_OUT:-/minitrue_out}
 SLEEP_TIME_IN_SEC=${SLEEP_TIME_IN_SEC:-60}
 
 while true
