@@ -1,9 +1,11 @@
-IMAGE   ?= sapcc/grafana-minitrue
-VERSION = $(shell git rev-parse --verify HEAD | head -c 8)
-SRCDIRS  := .
 
-docker-build: tests bin/linux/$(BINARY)
+IMAGE:=hub.global.cloud.sap/monsoon/grafana-minitrue
+VERSION:=v0.0.1
+#VERSION:=latest
+#VERSION:=v0.0.3
+
+docker-build:
 	docker build -t $(IMAGE):$(VERSION) .
 
-docker-push: build
+docker-push:
 	docker push $(IMAGE):$(VERSION)
