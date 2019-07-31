@@ -24,8 +24,9 @@ for i in dashboards-config* ; do
 done
 
 # loop and convert
-while true
-do
+while true; do
+  DATE=`date`
+  echo "$DATE - rewriting dashboard urls"
   ( set +eo pipefail ;  find . -name \*.json -print0 ; set -eo pipefail ) | while read -d $'\0' i; do
 #    echo ${i}
     NEW_UID=$(cat "${i}" | jq --raw-output .title | sed 's, -,-,g ; s,- ,-,g ; s, ,-,g' | tr '[:upper:]' '[:lower:]' | head -c 39)
