@@ -27,10 +27,20 @@ done
 while true; do
   DATE=`date`
   echo "$DATE - rewriting dashboard urls"
+  cd ${PATH_IN}
   ( set +eo pipefail ;  find . -name \*.json -print0 ; set -eo pipefail ) | while read -d $'\0' i; do
 #    echo ${i}
     NEW_UID=$(cat "${i}" | jq --raw-output .title | sed 's, -,-,g ; s,- ,-,g ; s, ,-,g' | tr '[:upper:]' '[:lower:]' | head -c 39)
-    sed 's,"uid": .*,"uid": "'${NEW_UID}'"\,,' "${i}" > "${PATH_OUT}/${i}"
+    # first is to replace the uid with the new one and second to adjust all url links referenced in the dashboard itself
+    sed 's,"uid": .*,"uid": "'${NEW_UID}'"\,,;s,"url": "/d/.*/,"url": "/d/,g' "${i}" > "${PATH_OUT}/${i}"
+  done
+  # remove target dashboards which are gone in the source
+  cd ${PATH_OUT}
+  ( set +eo pipefail ;  find . -name \*.json -print0 ; set -eo pipefail ) | while read -d $'\0' i; do
+#    echo ${i}
+    if [ ! -f "${PATH_IN}/${i}" ]; then
+      rm -f "${i}"
+    fi
   done
   sleep ${SLEEP_TIME_IN_SEC}
 done
