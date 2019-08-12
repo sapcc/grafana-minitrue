@@ -30,9 +30,16 @@ while true; do
   cd ${PATH_IN}
   ( set +eo pipefail ;  find . -name \*.json -print0 ; set -eo pipefail ) | while read -d $'\0' i; do
 #    echo ${i}
-    NEW_UID=$(cat "${i}" | jq --raw-output .title | sed 's, -,-,g ; s,- ,-,g ; s, ,-,g' | tr '[:upper:]' '[:lower:]' | head -c 39)
-    # first is to replace the uid with the new one and second to adjust all url links referenced in the dashboard itself
-    sed 's,"uid": .*,"uid": "'${NEW_UID}'"\,,;s,"url": "/d/.*/,"url": "/d/,g' "${i}" > "${PATH_OUT}/${i}"
+    # check if this is a global dashboard - they should keep their hashed url
+    echo $i | grep -q '^./dashboards-Global/'
+    if [ "$?" != "0" ]; then
+      NEW_UID=$(cat "${i}" | jq --raw-output .title | sed 's, -,-,g ; s,- ,-,g ; s, ,-,g' | tr '[:upper:]' '[:lower:]' | head -c 39)
+      # first is to replace the uid with the new one and second to adjust all url links referenced in the dashboard itself
+      sed 's,"uid": .*,"uid": "'${NEW_UID}'"\,,;s,"url": "/d/.*/,"url": "/d/,g' "${i}" > "${PATH_OUT}/${i}"
+    else
+      # no rewriting of the dashboard uid for a better url for global dashboards
+      cat "${i}" > "${PATH_OUT}/${i}"
+    fi
   done
   # remove target dashboards which are gone in the source
   cd ${PATH_OUT}
