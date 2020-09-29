@@ -1,6 +1,6 @@
 IMAGE:=keppel.eu-de-1.cloud.sap/ccloud/grafana-minitrue
 IMAGE_GIT_SYNC:=keppel.eu-de-1.cloud.sap/ccloud/git-sync
-VERSION:=v0.9.6
+VERSION:=v0.9.7
 VERSION_GIT_SYNC:=v3.1.6
 
 docker-build:
