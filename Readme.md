@@ -20,5 +20,5 @@ Flow: read all Grafana Dashboards from /gitsync_in -> modifiy `uid` field, based
 
 ## RUN
 
-1. docker build . -t grafana-minitrue
-2. docker run grafana-minitrue
+1. docker build . -t plutono-minitrue
+2. docker run plutono-minitrue

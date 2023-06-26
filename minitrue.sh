@@ -1,12 +1,12 @@
 #!/bin/bash
 
-PATH_IN=${PATH_IN:-/gitsync_in/grafana-content}
-PATH_OUT=${PATH_OUT:-/minitrue_out/grafana-content}
+PATH_IN=${PATH_IN:-/gitsync_in/plutono-content}
+PATH_OUT=${PATH_OUT:-/minitrue_out/plutono-content}
 SLEEP_TIME_IN_SEC=${SLEEP_TIME_IN_SEC:-60}
 
 # wait until gitsync did its initial sync
 while [ ! -d ${PATH_IN}/datasources-config ]; do
-  echo "waiting 5 more seconds for the grafana-content to be mounted and synced via git-sync ..."
+  echo "waiting 5 more seconds for the plutono-content to be mounted and synced via git-sync ..."
   sleep 5
 done
 
